@@ -442,6 +442,261 @@ window.location.href = "success.html";
 }
 
 </script>
+<!-- RAWQ PAYMENT AUTO DEMO -->
+<style>
+#paymentDemo{
+position:fixed;
+inset:0;
+z-index:99999;
+pointer-events:none;
+display:none;
+}
 
+.pay-demo-text{
+position:fixed;
+left:50%;
+bottom:30px;
+transform:translateX(-50%) translateY(15px);
+background:rgba(33,19,15,.96);
+color:#fffaf3;
+padding:13px 22px;
+border-radius:100px;
+font-size:13px;
+font-weight:800;
+white-space:nowrap;
+opacity:0;
+transition:.3s ease;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.pay-demo-text.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.pay-demo-pointer{
+position:fixed;
+width:42px;
+height:42px;
+border-radius:50%;
+background:#d86f45;
+border:4px solid white;
+box-shadow:0 8px 25px rgba(0,0,0,.25);
+opacity:0;
+transform:scale(.5);
+transition:
+left .55s ease,
+top .55s ease,
+opacity .25s,
+transform .18s;
+}
+
+.pay-demo-pointer.show{
+opacity:1;
+transform:scale(1);
+}
+
+.pay-demo-pointer.click{
+transform:scale(.68);
+}
+
+.pay-demo-pointer::after{
+content:"";
+position:absolute;
+inset:-9px;
+border:2px solid rgba(216,111,69,.45);
+border-radius:50%;
+animation:payPulse 1s infinite;
+}
+
+@keyframes payPulse{
+from{
+transform:scale(.7);
+opacity:1;
+}
+to{
+transform:scale(1.5);
+opacity:0;
+}
+}
+</style>
+
+<div id="paymentDemo">
+<div class="pay-demo-pointer" id="payPointer"></div>
+<div class="pay-demo-text" id="payText"></div>
+</div>
+
+<script>
+(function(){
+
+const params =
+new URLSearchParams(window.location.search);
+
+if(params.get("demo") !== "1") return;
+
+const layer =
+document.getElementById("paymentDemo");
+
+const pointer =
+document.getElementById("payPointer");
+
+const text =
+document.getElementById("payText");
+
+layer.style.display="block";
+
+const wait = ms =>
+new Promise(resolve => setTimeout(resolve,ms));
+
+function say(message){
+text.textContent=message;
+text.classList.add("show");
+}
+
+function pointTo(element){
+
+if(!element) return;
+
+element.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+setTimeout(()=>{
+
+const r=element.getBoundingClientRect();
+
+pointer.style.left=
+(r.left+r.width/2-21)+"px";
+
+pointer.style.top=
+(r.top+r.height/2-21)+"px";
+
+pointer.classList.add("show");
+
+},350);
+}
+
+async function clickEffect(){
+
+pointer.classList.add("click");
+
+await wait(170);
+
+pointer.classList.remove("click");
+}
+
+async function run(){
+
+await wait(500);
+
+/* المبلغ */
+
+say("راجع المبلغ النهائي");
+
+const amount =
+document.getElementById("amount");
+
+if(amount){
+pointTo(amount);
+}
+
+await wait(1100);
+
+
+/* بيانات الدفع */
+
+say("ثم اتبع بيانات الدفع");
+
+const bank =
+document.querySelector(".bank");
+
+if(bank){
+pointTo(bank);
+}
+
+await wait(1200);
+
+
+/* رفع الإيصال */
+
+say("وأرفق إيصال التحويل");
+
+const upload =
+document.getElementById("uploadBox");
+
+if(upload){
+pointTo(upload);
+}
+
+await wait(1100);
+
+await clickEffect();
+
+
+/*
+في العرض فقط:
+نظهر إيصال تجريبي بدل فتح
+اختيار الملفات في الجهاز.
+*/
+
+if(upload){
+
+upload.innerHTML = `
+<div style="
+width:55px;
+height:55px;
+margin:0 auto 10px;
+border-radius:50%;
+background:#e7f1e9;
+color:#315c4b;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+font-weight:bold;
+">✓</div>
+
+<strong>تم إرفاق الإيصال</strong>
+
+<p style="margin-top:6px">
+receipt-demo.jpg
+</p>
+`;
+
+upload.style.borderColor="#315c4b";
+upload.style.background="#f5faf6";
+}
+
+await wait(700);
+
+
+/* التأكيد */
+
+say("وأخيرًا… أكد طلبك");
+
+const confirmButton =
+document.querySelector(".confirm");
+
+if(confirmButton){
+
+pointTo(confirmButton);
+
+await wait(900);
+
+await clickEffect();
+}
+
+await wait(250);
+
+window.location.href=
+"success.html?demo=1";
+
+}
+
+run();
+
+})();
+</script>
 </body>
 </html>
