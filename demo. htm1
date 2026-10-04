@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>RAWQ — Demo</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+background:#21130f;
+color:#fffaf3;
+font-family:Arial,sans-serif;
+min-height:100vh;
+overflow:hidden;
+}
+
+.intro{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:#21130f;
+}
+
+.content{
+animation:introIn .8s ease forwards;
+}
+
+.logo{
+font-size:75px;
+font-weight:900;
+line-height:1;
+}
+
+.en{
+margin-top:13px;
+font-size:11px;
+letter-spacing:6px;
+color:#e5aa68;
+}
+
+.line{
+width:0;
+height:2px;
+background:#d86f45;
+margin:25px auto;
+animation:line 1s .4s ease forwards;
+}
+
+.text{
+font-size:18px;
+opacity:0;
+transform:translateY(10px);
+animation:textIn .6s .8s ease forwards;
+}
+
+.loading{
+position:absolute;
+bottom:45px;
+left:50%;
+transform:translateX(-50%);
+width:150px;
+height:2px;
+background:rgba(255,255,255,.12);
+overflow:hidden;
+}
+
+.loading::after{
+content:"";
+display:block;
+width:100%;
+height:100%;
+background:#d86f45;
+transform:translateX(100%);
+animation:load 2.2s linear forwards;
+}
+
+@keyframes introIn{
+from{
+opacity:0;
+transform:scale(.96);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+@keyframes line{
+to{width:85px;}
+}
+
+@keyframes textIn{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes load{
+to{
+transform:translateX(0);
+}
+}
+
+@media(max-width:600px){
+.logo{
+font-size:62px;
+}
+
+.text{
+font-size:15px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+<div class="content">
+<div class="logo">رَوق</div>
+<div class="en">RAWQ CAFÉ</div>
+
+<div class="line"></div>
+
+<div class="text">
+طلبك على مزاجك.
+</div>
+</div>
+
+<div class="loading"></div>
+
+</div>
+
+<script>
+setTimeout(function(){
+window.location.href="index.html?demo=1";
+},2200);
+</script>
+
+</body>
+</html>
