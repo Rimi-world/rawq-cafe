@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منيو رَوق | RAWQ</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--espresso:#21130f;
+--coffee:#563529;
+--cream:#f5eadb;
+--paper:#fffaf3;
+--orange:#d86f45;
+--gold:#e5aa68;
+--muted:#8b7569;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:var(--espresso);
+color:var(--cream);
+}
+
+header{
+padding:24px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:30px;
+font-weight:900;
+}
+
+.logo small{
+display:block;
+font-size:8px;
+letter-spacing:3px;
+margin-top:3px;
+}
+
+.cart{
+background:var(--orange);
+color:white;
+width:48px;
+height:48px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+position:relative;
+font-size:20px;
+}
+
+.cart-count{
+position:absolute;
+width:20px;
+height:20px;
+background:var(--cream);
+color:var(--espresso);
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:10px;
+top:-3px;
+right:-3px;
+}
+
+.hero{
+padding:35px 20px 30px;
+}
+
+.hero span{
+color:var(--orange);
+font-size:12px;
+font-weight:bold;
+}
+
+.hero h1{
+font-size:55px;
+line-height:.95;
+margin:12px 0 15px;
+}
+
+.hero p{
+color:#cdb9ad;
+line-height:1.8;
+font-size:14px;
+}
+
+.categories{
+display:flex;
+gap:9px;
+overflow-x:auto;
+padding:0 20px 28px;
+scrollbar-width:none;
+}
+
+.category{
+background:transparent;
+color:var(--cream);
+border:1px solid #67483b;
+padding:11px 17px;
+border-radius:50px;
+white-space:nowrap;
+cursor:pointer;
+}
+
+.category.active{
+background:var(--orange);
+border-color:var(--orange);
+color:white;
+}
+
+.menu-box{
+background:var(--paper);
+color:var(--espresso);
+border-radius:35px 35px 0 0;
+padding:30px 18px 60px;
+min-height:600px;
+}
+
+.section-title{
+margin-bottom:22px;
+}
+
+.section-title small{
+color:var(--orange);
+font-weight:bold;
+}
+
+.section-title h2{
+font-size:29px;
+margin-top:5px;
+}
+
+.products{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.product{
+background:white;
+border-radius:24px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(55,31,21,.08);
+text-decoration:none;
+color:var(--espresso);
+transition:.2s;
+}
+
+.product:active{
+transform:scale(.97);
+}
+
+.image{
+height:185px;
+position:relative;
+overflow:hidden;
+background:#ead8c5;
+}
+
+.image img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.badge{
+position:absolute;
+top:10px;
+right:10px;
+background:rgba(33,19,15,.88);
+color:white;
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+}
+
+.product-info{
+padding:15px;
+}
+
+.product-info h3{
+font-size:17px;
+margin-bottom:6px;
+}
+
+.product-info p{
+color:var(--muted);
+font-size:11px;
+line-height:1.6;
+min-height:35px;
+}
+
+.bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:14px;
+}
+
+.price{
+font-weight:900;
+font-size:16px;
+}
+
+.price small{
+font-size:9px;
+color:var(--muted);
+}
+
+.plus{
+width:31px;
+height:31px;
+border-radius:50%;
+background:var(--espresso);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:20px;
+}
+
+.demo{
+background:#f1dfcb;
+padding:15px;
+border-radius:18px;
+margin-top:28px;
+color:#755a4d;
+font-size:11px;
+line-height:1.8;
+text-align:center;
+}
+
+@media(min-width:700px){
+body{
+max-width:700px;
+margin:auto;
+}
+
+.image{
+height:260px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+رَوق
+<small>RAWQ CAFÉ</small>
+</div>
+
+<a href="cart.html" class="cart">
+🛒
+<div class="cart-count">0</div>
+</a>
+</header>
+
+<section class="hero">
+<span>RAWQ MENU / 02</span>
+
+<h1>
+اختار<br>
+رَوقانك.
+</h1>
+
+<p>
+من الإسبريسو الثقيل إلى القهوة الباردة والحلى،
+اختار اللي يناسب مزاجك.
+</p>
+</section>
+
+<div class="categories">
+<button class="category active" onclick="filterMenu('all',this)">الكل</button>
+<button class="category" onclick="filterMenu('hot',this)">ساخن</button>
+<button class="category" onclick="filterMenu('cold',this)">بارد</button>
+<button class="category" onclick="filterMenu('dessert',this)">حلى</button>
+</div>
+
+<main class="menu-box">
+
+<div class="section-title">
+<small>OUR PICKS</small>
+<h2>اختيارات رَوق</h2>
+</div>
+
+<div class="products">
+
+<a class="product" data-category="hot" href="product.html?item=spanish">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=800&q=85"
+alt="سبانش لاتيه">
+<span class="badge">الأكثر طلبًا</span>
+</div>
+
+<div class="product-info">
+<h3>سبانش رَوق</h3>
+<p>إسبريسو، حليب كريمي ولمسة حلوة متوازنة.</p>
+
+<div class="bottom">
+<div class="price">1.800 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+<a class="product" data-category="cold" href="product.html?item=iced">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=85"
+alt="قهوة باردة">
+</div>
+
+<div class="product-info">
+<h3>آيس رَوق</h3>
+<p>إسبريسو بارد مع الحليب والثلج.</p>
+
+<div class="bottom">
+<div class="price">1.900 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+<a class="product" data-category="hot" href="product.html?item=flatwhite">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=85"
+alt="فلات وايت">
+</div>
+
+<div class="product-info">
+<h3>فلات وايت</h3>
+<p>إسبريسو مزدوج مع حليب ناعم ومتوازن.</p>
+
+<div class="bottom">
+<div class="price">1.600 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+<a class="product" data-category="dessert" href="product.html?item=croissant">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=85"
+alt="كرواسون">
+<span class="badge">طازج</span>
+</div>
+
+<div class="product-info">
+<h3>كرواسون زبدة</h3>
+<p>كرواسون هش ودافئ، مناسب مع كوب قهوتك.</p>
+
+<div class="bottom">
+<div class="price">1.200 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+<a class="product" data-category="cold" href="product.html?item=coldbrew">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=85"
+alt="كولد برو">
+</div>
+
+<div class="product-info">
+<h3>كولد برو</h3>
+<p>قهوة باردة بنكهة قوية ونهاية ناعمة.</p>
+
+<div class="bottom">
+<div class="price">2.100 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+<a class="product" data-category="dessert" href="product.html?item=brownie">
+<div class="image">
+<img
+src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=85"
+alt="براوني">
+</div>
+
+<div class="product-info">
+<h3>براوني رَوق</h3>
+<p>براوني شوكولاتة غني يقدم دافئًا.</p>
+
+<div class="bottom">
+<div class="price">1.400 <small>ر.ع</small></div>
+<div class="plus">+</div>
+</div>
+</div>
+</a>
+
+</div>
+
+<div class="demo">
+RAWQ — نموذج تجريبي لعرض تصميم وتجربة موقع إلكتروني لمقهى.
+</div>
+
+</main>
+
+<script>
+function filterMenu(category,button){
+
+document.querySelectorAll('.category').forEach(btn=>{
+btn.classList.remove('active');
+});
+
+button.classList.add('active');
+
+document.querySelectorAll('.product').forEach(product=>{
+
+if(category === 'all' || product.dataset.category === category){
+product.style.display = 'block';
+}else{
+product.style.display = 'none';
+}
+
+});
+}
+</script>
+
+</body>
+</html>
