@@ -146,6 +146,161 @@ opacity:.9;
 const number = "RQ-" + Math.floor(100000 + Math.random() * 900000);
 document.getElementById("orderNumber").textContent = number;
 </script>
+<!-- RAWQ SUCCESS AUTO DEMO -->
+<style>
+#successDemo{
+position:fixed;
+inset:0;
+z-index:99999;
+pointer-events:none;
+display:none;
+}
 
+.success-demo-text{
+position:fixed;
+left:50%;
+bottom:30px;
+transform:translateX(-50%) translateY(20px);
+background:rgba(33,19,15,.96);
+color:#fffaf3;
+padding:14px 24px;
+border-radius:100px;
+font-size:14px;
+font-weight:800;
+white-space:nowrap;
+opacity:0;
+transition:.5s ease;
+box-shadow:0 10px 30px rgba(0,0,0,.20);
+}
+
+.success-demo-text.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.demo-end{
+position:fixed;
+inset:0;
+background:#21130f;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+opacity:0;
+transition:.7s ease;
+}
+
+.demo-end.show{
+opacity:1;
+}
+
+.demo-end-logo{
+font-size:70px;
+font-weight:900;
+color:#fffaf3;
+}
+
+.demo-end-en{
+color:#e5aa68;
+font-size:10px;
+letter-spacing:5px;
+margin-top:10px;
+}
+
+.demo-end-line{
+width:65px;
+height:2px;
+background:#d86f45;
+margin:22px auto;
+}
+
+.demo-end-message{
+color:#fffaf3;
+font-size:18px;
+font-weight:700;
+}
+
+.demo-end-small{
+color:#a99488;
+font-size:11px;
+margin-top:10px;
+}
+</style>
+
+<div id="successDemo">
+
+<div
+class="success-demo-text"
+id="successDemoText">
+</div>
+
+<div class="demo-end" id="demoEnd">
+<div>
+<div class="demo-end-logo">رَوق</div>
+
+<div class="demo-end-en">
+RAWQ CAFÉ
+</div>
+
+<div class="demo-end-line"></div>
+
+<div class="demo-end-message">
+خذ وقتك. واروق.
+</div>
+
+<div class="demo-end-small">
+YOUR COFFEE • YOUR MOOD
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+
+const params =
+new URLSearchParams(window.location.search);
+
+if(params.get("demo") !== "1") return;
+
+const layer =
+document.getElementById("successDemo");
+
+const text =
+document.getElementById("successDemoText");
+
+const end =
+document.getElementById("demoEnd");
+
+layer.style.display="block";
+
+function wait(ms){
+return new Promise(resolve =>
+setTimeout(resolve,ms)
+);
+}
+
+async function run(){
+
+await wait(500);
+
+text.textContent="تم استلام طلبك ✓";
+text.classList.add("show");
+
+await wait(1700);
+
+text.classList.remove("show");
+
+await wait(350);
+
+end.classList.add("show");
+
+}
+
+run();
+
+})();
+</script>
 </body>
 </html>
