@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدفع | رَوق</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--dark:#21130f;
+--cream:#f5eadb;
+--paper:#fffaf3;
+--orange:#d86f45;
+--gold:#e5aa68;
+--muted:#8b7569;
+--line:#eadccf;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:var(--paper);
+color:var(--dark);
+padding-bottom:125px;
+}
+
+header{
+padding:22px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:28px;
+font-weight:900;
+}
+
+.back{
+color:var(--dark);
+text-decoration:none;
+border:1px solid var(--line);
+padding:10px 15px;
+border-radius:30px;
+}
+
+.hero{
+padding:28px 20px 30px;
+}
+
+.hero small{
+color:var(--orange);
+font-weight:bold;
+}
+
+.hero h1{
+font-size:45px;
+margin:8px 0;
+}
+
+.hero p{
+color:var(--muted);
+line-height:1.8;
+}
+
+.container{
+padding:0 18px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:25px;
+margin-bottom:16px;
+box-shadow:0 8px 25px rgba(40,20,10,.06);
+}
+
+.card h2{
+font-size:19px;
+margin-bottom:17px;
+}
+
+.amount{
+background:var(--dark);
+color:white;
+padding:23px;
+border-radius:22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:17px;
+}
+
+.amount small{
+color:#cfbcae;
+display:block;
+margin-bottom:5px;
+}
+
+.amount strong{
+color:var(--gold);
+font-size:25px;
+}
+
+.bank{
+background:#f4e6d8;
+border-radius:20px;
+padding:18px;
+}
+
+.demo{
+display:inline-block;
+background:#ffe1d3;
+color:#a64e30;
+padding:6px 10px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+margin-bottom:16px;
+}
+
+.bank-row{
+padding:12px 0;
+border-bottom:1px solid #decab7;
+}
+
+.bank-row:last-child{
+border-bottom:0;
+}
+
+.bank-row span{
+display:block;
+color:var(--muted);
+font-size:11px;
+margin-bottom:5px;
+}
+
+.bank-row strong{
+font-size:15px;
+}
+
+.upload{
+border:2px dashed #d9c4b3;
+border-radius:20px;
+padding:30px 15px;
+text-align:center;
+cursor:pointer;
+background:#fffaf6;
+}
+
+.upload-icon{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.upload strong{
+display:block;
+margin-bottom:7px;
+}
+
+.upload p{
+font-size:11px;
+color:var(--muted);
+}
+
+#receipt{
+display:none;
+}
+
+.preview{
+display:none;
+margin-top:15px;
+position:relative;
+}
+
+.preview img{
+width:100%;
+max-height:300px;
+object-fit:contain;
+border-radius:18px;
+background:#eee;
+}
+
+.change{
+margin-top:10px;
+border:0;
+background:none;
+color:var(--orange);
+font-weight:bold;
+cursor:pointer;
+}
+
+.notice{
+background:#f2e7dc;
+color:#755e50;
+border-radius:17px;
+padding:15px;
+font-size:11px;
+line-height:1.8;
+margin-top:15px;
+}
+
+.error{
+display:none;
+color:#9a3e2d;
+background:#ffe9e2;
+padding:12px;
+border-radius:13px;
+margin-top:13px;
+font-size:12px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+padding:14px 18px 22px;
+background:rgba(255,250,243,.96);
+backdrop-filter:blur(10px);
+border-top:1px solid var(--line);
+}
+
+.confirm{
+width:100%;
+max-width:650px;
+margin:auto;
+border:0;
+background:var(--dark);
+color:white;
+padding:18px;
+border-radius:18px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+@media(min-width:700px){
+body{
+max-width:700px;
+margin:auto;
+}
+
+.bottom{
+max-width:700px;
+margin:auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">رَوق</div>
+<a href="checkout.html" class="back">رجوع</a>
+</header>
+
+<section class="hero">
+<small>PAYMENT / 05</small>
+<h1>آخر خطوة.</h1>
+<p>
+حوّل المبلغ، وبعدها أرفق صورة الإيصال لإكمال الطلب.
+</p>
+</section>
+
+<main class="container">
+
+<div class="amount">
+<div>
+<small>المبلغ المطلوب</small>
+<span>إجمالي الطلب</span>
+</div>
+
+<strong id="amount">0.000 ر.ع</strong>
+</div>
+
+<section class="card">
+
+<h2>بيانات التحويل</h2>
+
+<div class="bank">
+
+<span class="demo">DEMO • بيانات تجريبية</span>
+
+<div class="bank-row">
+<span>اسم البنك</span>
+<strong>RAWQ DEMO BANK</strong>
+</div>
+
+<div class="bank-row">
+<span>اسم المستفيد</span>
+<strong>RAWQ CAFÉ — DEMO</strong>
+</div>
+
+<div class="bank-row">
+<span>رقم الحساب التجريبي</span>
+<strong>0000 0000 0000</strong>
+</div>
+
+</div>
+
+<div class="notice">
+هذه البيانات وهمية ومخصصة لعرض نموذج الموقع فقط، ولا يمكن استخدامها لإجراء تحويل مالي حقيقي.
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>إرفاق إيصال التحويل</h2>
+
+<label class="upload" for="receipt" id="uploadBox">
+
+<div class="upload-icon">＋</div>
+
+<strong>اختر صورة الإيصال</strong>
+
+<p>
+اضغط هنا لاختيار صورة من جهازك
+</p>
+
+</label>
+
+<input
+type="file"
+id="receipt"
+accept="image/*"
+onchange="showReceipt(event)"
+>
+
+<div class="preview" id="preview">
+
+<img id="receiptImage" alt="معاينة الإيصال">
+
+<button class="change"
+onclick="document.getElementById('receipt').click()">
+تغيير الصورة
+</button>
+
+</div>
+
+<div class="error" id="error">
+أرفق صورة إيصال تجريبية لإكمال النموذج.
+</div>
+
+</section>
+
+</main>
+
+
+<div class="bottom">
+
+<button class="confirm" onclick="finishOrder()">
+تأكيد وإرسال الطلب ✓
+</button>
+
+</div>
+
+
+<script>
+
+const order =
+JSON.parse(localStorage.getItem("rawqOrder")) || {};
+
+const cart =
+JSON.parse(localStorage.getItem("rawqCart")) || [];
+
+let receiptSelected = false;
+
+
+if(order.total !== undefined){
+
+document.getElementById("amount").textContent =
+Number(order.total).toFixed(3) + " ر.ع";
+
+}else{
+
+let total = 0;
+
+cart.forEach(item=>{
+total += Number(item.total);
+});
+
+document.getElementById("amount").textContent =
+total.toFixed(3) + " ر.ع";
+}
+
+
+function showReceipt(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+if(!file.type.startsWith("image/")){
+alert("اختاري صورة فقط.");
+return;
+}
+
+receiptSelected = true;
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+document.getElementById("receiptImage").src =
+e.target.result;
+
+document.getElementById("preview").style.display =
+"block";
+
+document.getElementById("uploadBox").style.display =
+"none";
+
+document.getElementById("error").style.display =
+"none";
+};
+
+reader.readAsDataURL(file);
+}
+
+
+function finishOrder(){
+
+if(!receiptSelected){
+
+document.getElementById("error").style.display =
+"block";
+
+return;
+}
+
+/*
+هذا Portfolio Demo فقط.
+لا يتم إرسال أو تخزين صورة الإيصال فعليًا.
+*/
+
+window.location.href = "success.html";
+}
+
+</script>
+
+</body>
+</html>
