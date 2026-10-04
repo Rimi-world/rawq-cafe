@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إتمام الطلب | رَوق</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--dark:#21130f;
+--coffee:#563529;
+--cream:#f5eadb;
+--paper:#fffaf3;
+--orange:#d86f45;
+--gold:#e5aa68;
+--muted:#8b7569;
+--line:#eadccf;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:var(--paper);
+color:var(--dark);
+padding-bottom:120px;
+}
+
+header{
+padding:22px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:27px;
+font-weight:900;
+}
+
+.back{
+text-decoration:none;
+color:var(--dark);
+border:1px solid var(--line);
+padding:10px 15px;
+border-radius:30px;
+}
+
+.hero{
+padding:25px 20px 30px;
+}
+
+.hero small{
+color:var(--orange);
+font-weight:bold;
+}
+
+.hero h1{
+font-size:43px;
+margin:7px 0;
+}
+
+.hero p{
+color:var(--muted);
+line-height:1.7;
+}
+
+.container{
+padding:0 18px;
+}
+
+.card{
+background:white;
+border-radius:25px;
+padding:20px;
+margin-bottom:17px;
+box-shadow:0 8px 25px rgba(40,20,10,.06);
+}
+
+.card h2{
+font-size:20px;
+margin-bottom:18px;
+}
+
+.field{
+margin-bottom:17px;
+}
+
+.field label{
+display:block;
+font-size:12px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.field input,
+.field select,
+.field textarea{
+width:100%;
+border:1px solid #e3d5c9;
+background:#fffaf6;
+padding:15px;
+border-radius:15px;
+font-size:14px;
+outline:none;
+color:var(--dark);
+}
+
+.field textarea{
+min-height:90px;
+resize:none;
+}
+
+.delivery-options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.delivery{
+position:relative;
+}
+
+.delivery input{
+position:absolute;
+opacity:0;
+}
+
+.delivery label{
+display:block;
+border:2px solid #eadccf;
+padding:18px 10px;
+border-radius:18px;
+text-align:center;
+cursor:pointer;
+font-weight:bold;
+}
+
+.delivery input:checked + label{
+border-color:var(--orange);
+background:#fff1e9;
+color:var(--orange);
+}
+
+.delivery label span{
+display:block;
+font-size:24px;
+margin-bottom:7px;
+}
+
+#addressBox{
+display:none;
+margin-top:20px;
+padding-top:20px;
+border-top:1px solid var(--line);
+}
+
+.order-item{
+display:flex;
+gap:12px;
+align-items:center;
+margin-bottom:14px;
+}
+
+.order-item img{
+width:65px;
+height:65px;
+object-fit:cover;
+border-radius:14px;
+}
+
+.order-info{
+flex:1;
+}
+
+.order-info strong{
+display:block;
+margin-bottom:5px;
+}
+
+.order-info small{
+color:var(--muted);
+}
+
+.order-price{
+font-weight:bold;
+font-size:13px;
+}
+
+.total{
+border-top:1px solid var(--line);
+margin-top:15px;
+padding-top:17px;
+display:flex;
+justify-content:space-between;
+font-size:21px;
+font-weight:900;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+padding:14px 18px 22px;
+background:rgba(255,250,243,.96);
+backdrop-filter:blur(10px);
+border-top:1px solid var(--line);
+z-index:30;
+}
+
+.next{
+width:100%;
+max-width:650px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+border:0;
+background:var(--dark);
+color:white;
+padding:18px;
+border-radius:18px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+}
+
+.next span:last-child{
+color:var(--gold);
+}
+
+.error{
+display:none;
+background:#ffe9e2;
+color:#9a3e2d;
+padding:12px;
+border-radius:12px;
+margin-bottom:15px;
+font-size:12px;
+}
+
+@media(min-width:700px){
+body{
+max-width:700px;
+margin:auto;
+}
+.bottom{
+max-width:700px;
+margin:auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">رَوق</div>
+<a href="cart.html" class="back">رجوع</a>
+</header>
+
+<section class="hero">
+<small>CHECKOUT / 04</small>
+<h1>نكمل طلبك.</h1>
+<p>دخل بياناتك واختار الطريقة اللي تناسبك.</p>
+</section>
+
+<div class="container">
+
+<div id="error" class="error">
+يرجى تعبئة البيانات المطلوبة.
+</div>
+
+<section class="card">
+<h2>بياناتك</h2>
+
+<div class="field">
+<label>الاسم الكامل *</label>
+<input id="name" type="text" placeholder="اكتب اسمك">
+</div>
+
+<div class="field">
+<label>رقم الهاتف *</label>
+<input id="phone" type="tel" inputmode="numeric"
+placeholder="+968">
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>كيف تستلم طلبك؟</h2>
+
+<div class="delivery-options">
+
+<div class="delivery">
+<input type="radio" id="pickup" name="delivery"
+value="pickup" checked onchange="deliveryChange()">
+<label for="pickup">
+<span>☕</span>
+استلام من الكوفي
+</label>
+</div>
+
+<div class="delivery">
+<input type="radio" id="home" name="delivery"
+value="delivery" onchange="deliveryChange()">
+<label for="home">
+<span>⌂</span>
+توصيل
+</label>
+</div>
+
+</div>
+
+
+<div id="addressBox">
+
+<div class="field">
+<label>المحافظة *</label>
+<select id="governorate">
+<option value="">اختر المحافظة</option>
+<option>مسقط</option>
+<option>شمال الباطنة</option>
+<option>جنوب الباطنة</option>
+<option>الداخلية</option>
+<option>شمال الشرقية</option>
+<option>جنوب الشرقية</option>
+<option>الظاهرة</option>
+<option>البريمي</option>
+<option>مسندم</option>
+<option>الوسطى</option>
+<option>ظفار</option>
+</select>
+</div>
+
+<div class="field">
+<label>الولاية *</label>
+<input id="wilayat" type="text" placeholder="مثال: بوشر">
+</div>
+
+<div class="field">
+<label>تفاصيل الموقع *</label>
+<textarea id="address"
+placeholder="المنطقة، الشارع، رقم المنزل أو أقرب معلم..."></textarea>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>ملاحظات للطلب</h2>
+
+<div class="field">
+<textarea id="notes"
+placeholder="مثلاً: بدون سكر، الاتصال عند الوصول..."></textarea>
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>ملخص طلبك</h2>
+
+<div id="orderSummary"></div>
+
+<div class="total">
+<span>الإجمالي</span>
+<span id="total">0.000 ر.ع</span>
+</div>
+
+</section>
+
+</div>
+
+
+<div class="bottom">
+
+<button class="next" onclick="continueOrder()">
+<span>متابعة للدفع ←</span>
+<span id="bottomTotal">0.000 ر.ع</span>
+</button>
+
+</div>
+
+
+<script>
+
+const cart =
+JSON.parse(localStorage.getItem("rawqCart")) || [];
+
+let total = 0;
+
+function renderSummary(){
+
+const box =
+document.getElementById("orderSummary");
+
+box.innerHTML="";
+
+total=0;
+
+cart.forEach(item=>{
+
+total += Number(item.total);
+
+box.innerHTML += `
+<div class="order-item">
+
+<img src="${item.image}" alt="${item.name}">
+
+<div class="order-info">
+<strong>${item.name}</strong>
+<small>الكمية: ${item.quantity}</small>
+</div>
+
+<div class="order-price">
+${Number(item.total).toFixed(3)} ر.ع
+</div>
+
+</div>
+`;
+});
+
+document.getElementById("total").textContent =
+total.toFixed(3)+" ر.ع";
+
+document.getElementById("bottomTotal").textContent =
+total.toFixed(3)+" ر.ع";
+}
+
+
+function deliveryChange(){
+
+const selected =
+document.querySelector(
+'input[name="delivery"]:checked'
+).value;
+
+document.getElementById("addressBox").style.display =
+selected==="delivery" ? "block" : "none";
+}
+
+
+function continueOrder(){
+
+const name =
+document.getElementById("name").value.trim();
+
+const phone =
+document.getElementById("phone").value.trim();
+
+const delivery =
+document.querySelector(
+'input[name="delivery"]:checked'
+).value;
+
+const error =
+document.getElementById("error");
+
+if(!name || !phone){
+error.style.display="block";
+window.scrollTo({top:0,behavior:"smooth"});
+return;
+}
+
+let governorate="";
+let wilayat="";
+let address="";
+
+if(delivery==="delivery"){
+
+governorate =
+document.getElementById("governorate").value;
+
+wilayat =
+document.getElementById("wilayat").value.trim();
+
+address =
+document.getElementById("address").value.trim();
+
+if(!governorate || !wilayat || !address){
+error.style.display="block";
+return;
+}
+}
+
+error.style.display="none";
+
+const orderData={
+name:name,
+phone:phone,
+delivery:delivery,
+governorate:governorate,
+wilayat:wilayat,
+address:address,
+notes:document.getElementById("notes").value,
+total:total
+};
+
+localStorage.setItem(
+"rawqOrder",
+JSON.stringify(orderData)
+);
+
+window.location.href="payment.html";
+}
+
+renderSummary();
+deliveryChange();
+
+</script>
+
+</body>
+</html>
