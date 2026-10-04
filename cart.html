@@ -390,6 +390,255 @@ save();
 render();
 
 </script>
+<!-- RAWQ CART AUTO DEMO -->
+<style>
+#cartDemoLayer{
+position:fixed;
+inset:0;
+z-index:99999;
+pointer-events:none;
+display:none;
+}
 
+.cart-demo-text{
+position:fixed;
+left:50%;
+bottom:30px;
+transform:translateX(-50%) translateY(15px);
+background:rgba(33,19,15,.96);
+color:#fffaf3;
+padding:13px 22px;
+border-radius:100px;
+font-size:13px;
+font-weight:800;
+white-space:nowrap;
+opacity:0;
+transition:.3s ease;
+box-shadow:0 10px 30px rgba(0,0,0,.20);
+}
+
+.cart-demo-text.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.cart-demo-pointer{
+position:fixed;
+width:42px;
+height:42px;
+border-radius:50%;
+background:#d86f45;
+border:4px solid white;
+box-shadow:0 8px 25px rgba(0,0,0,.25);
+opacity:0;
+transform:scale(.5);
+transition:
+left .6s ease,
+top .6s ease,
+opacity .25s,
+transform .18s;
+}
+
+.cart-demo-pointer.show{
+opacity:1;
+transform:scale(1);
+}
+
+.cart-demo-pointer.click{
+transform:scale(.68);
+}
+
+.cart-demo-pointer::after{
+content:"";
+position:absolute;
+inset:-9px;
+border:2px solid rgba(216,111,69,.45);
+border-radius:50%;
+animation:cartPulse 1s infinite;
+}
+
+@keyframes cartPulse{
+from{
+transform:scale(.7);
+opacity:1;
+}
+
+to{
+transform:scale(1.5);
+opacity:0;
+}
+}
+</style>
+
+
+<div id="cartDemoLayer">
+
+<div
+class="cart-demo-pointer"
+id="cartDemoPointer">
+</div>
+
+<div
+class="cart-demo-text"
+id="cartDemoText">
+</div>
+
+</div>
+
+
+<script>
+(function(){
+
+const params =
+new URLSearchParams(window.location.search);
+
+if(params.get("demo") !== "1") return;
+
+
+const layer =
+document.getElementById("cartDemoLayer");
+
+const pointer =
+document.getElementById("cartDemoPointer");
+
+const text =
+document.getElementById("cartDemoText");
+
+layer.style.display="block";
+
+
+function wait(ms){
+return new Promise(resolve =>
+setTimeout(resolve,ms)
+);
+}
+
+
+function say(message){
+
+text.textContent=message;
+text.classList.add("show");
+
+}
+
+
+function pointTo(element){
+
+if(!element) return;
+
+element.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+setTimeout(()=>{
+
+const r =
+element.getBoundingClientRect();
+
+pointer.style.left =
+(r.left+r.width/2-21)+"px";
+
+pointer.style.top =
+(r.top+r.height/2-21)+"px";
+
+pointer.classList.add("show");
+
+},400);
+
+}
+
+
+async function clickEffect(){
+
+pointer.classList.add("click");
+
+await wait(180);
+
+pointer.classList.remove("click");
+
+}
+
+
+async function run(){
+
+await wait(600);
+
+
+/* الطلب */
+
+say("راجع طلبك قبل الإكمال");
+
+const orderItem =
+document.querySelector(".cart-item") ||
+document.querySelector(".item") ||
+document.querySelector(
+"#cartItems > *"
+);
+
+if(orderItem){
+pointTo(orderItem);
+}
+
+await wait(1300);
+
+
+/* الإجمالي */
+
+say("وتأكد من الإجمالي");
+
+const total =
+document.getElementById("total") ||
+document.querySelector(".total");
+
+if(total){
+pointTo(total);
+}
+
+await wait(1100);
+
+
+/* إتمام الطلب */
+
+say("كل شيء تمام؟ أكمل طلبك");
+
+const links =
+[...document.querySelectorAll("a")];
+
+let checkout =
+links.find(link =>
+link.getAttribute("href") &&
+link.getAttribute("href")
+.toLowerCase()
+.includes("checkout")
+);
+
+
+if(checkout){
+
+pointTo(checkout);
+
+await wait(1000);
+
+await clickEffect();
+
+}
+
+
+/*
+الانتقال مع استمرار
+وضع العرض التلقائي
+*/
+
+window.location.href =
+"checkout.html?demo=1";
+
+}
+
+
+run();
+
+})();
+</script>
 </body>
 </html>
