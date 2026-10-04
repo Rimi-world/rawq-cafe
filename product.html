@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل الطلب | رَوق</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--dark:#21130f;
+--coffee:#563529;
+--cream:#f5eadb;
+--paper:#fffaf3;
+--orange:#d86f45;
+--gold:#e5aa68;
+--muted:#8b7569;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:var(--paper);
+color:var(--dark);
+padding-bottom:120px;
+}
+
+.hero{
+height:390px;
+position:relative;
+overflow:hidden;
+background:#ddd;
+}
+
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(transparent 50%,rgba(20,10,7,.65));
+}
+
+.back{
+position:absolute;
+z-index:5;
+top:20px;
+right:18px;
+width:45px;
+height:45px;
+border:0;
+border-radius:50%;
+background:rgba(255,255,255,.92);
+font-size:22px;
+cursor:pointer;
+}
+
+.brand{
+position:absolute;
+z-index:5;
+bottom:22px;
+right:20px;
+color:white;
+font-size:13px;
+letter-spacing:2px;
+}
+
+.content{
+background:var(--paper);
+margin-top:-20px;
+position:relative;
+z-index:10;
+border-radius:28px 28px 0 0;
+padding:28px 20px;
+}
+
+.tag{
+color:var(--orange);
+font-size:11px;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+h1{
+font-size:35px;
+margin:7px 0;
+}
+
+.description{
+color:var(--muted);
+line-height:1.8;
+font-size:14px;
+}
+
+.base-price{
+margin-top:15px;
+font-size:23px;
+font-weight:900;
+}
+
+.section{
+margin-top:32px;
+}
+
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:14px;
+}
+
+.section-title h2{
+font-size:19px;
+}
+
+.required{
+background:#f4e5dc;
+color:var(--orange);
+padding:5px 9px;
+border-radius:20px;
+font-size:10px;
+}
+
+.options{
+display:grid;
+gap:10px;
+}
+
+.option{
+border:1px solid #e7d9cc;
+border-radius:17px;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+background:white;
+}
+
+.option input{
+accent-color:var(--orange);
+width:19px;
+height:19px;
+}
+
+.option-info{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.extra-price{
+color:var(--orange);
+font-size:12px;
+font-weight:bold;
+}
+
+.quantity{
+margin-top:30px;
+background:#f2e6da;
+padding:14px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.controls{
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.controls button{
+width:38px;
+height:38px;
+border:none;
+border-radius:50%;
+background:var(--dark);
+color:white;
+font-size:22px;
+}
+
+#qty{
+font-weight:bold;
+font-size:18px;
+}
+
+.bottom-bar{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+padding:14px 18px 22px;
+background:rgba(255,250,243,.96);
+backdrop-filter:blur(10px);
+border-top:1px solid #eee0d5;
+z-index:50;
+}
+
+.add{
+width:100%;
+max-width:650px;
+margin:auto;
+border:none;
+background:var(--dark);
+color:white;
+border-radius:18px;
+padding:17px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.add strong{
+color:var(--gold);
+}
+
+.notice{
+display:none;
+position:fixed;
+top:25px;
+left:50%;
+transform:translateX(-50%);
+background:var(--dark);
+color:white;
+padding:13px 20px;
+border-radius:30px;
+z-index:100;
+font-size:13px;
+}
+
+@media(min-width:700px){
+body{
+max-width:700px;
+margin:auto;
+}
+
+.bottom-bar{
+max-width:700px;
+margin:auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="notice" id="notice">
+تمت الإضافة للسلة ✓
+</div>
+
+<section class="hero">
+<img id="productImage" src="" alt="منتج">
+<button class="back" onclick="history.back()">←</button>
+<div class="brand">RAWQ CAFÉ</div>
+</section>
+
+<main class="content">
+
+<span class="tag">MAKE IT YOURS</span>
+
+<h1 id="productName">سبانش رَوق</h1>
+
+<p class="description" id="productDescription">
+إسبريسو غني مع حليب كريمي ولمسة حلوة متوازنة.
+</p>
+
+<div class="base-price">
+<span id="basePrice">1.800</span> ر.ع
+</div>
+
+
+<section class="section">
+
+<div class="section-title">
+<h2>اختار الحجم</h2>
+<span class="required">مطلوب</span>
+</div>
+
+<div class="options">
+
+<label class="option">
+<div class="option-info">
+<input type="radio" name="size" value="0" checked onchange="calculate()">
+<span>عادي</span>
+</div>
+<span class="extra-price">بدون إضافة</span>
+</label>
+
+<label class="option">
+<div class="option-info">
+<input type="radio" name="size" value="0.300" onchange="calculate()">
+<span>كبير</span>
+</div>
+<span class="extra-price">+ 0.300 ر.ع</span>
+</label>
+
+</div>
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+<h2>نوع الحليب</h2>
+</div>
+
+<div class="options">
+
+<label class="option">
+<div class="option-info">
+<input type="radio" name="milk" value="0" checked onchange="calculate()">
+<span>حليب عادي</span>
+</div>
+</label>
+
+<label class="option">
+<div class="option-info">
+<input type="radio" name="milk" value="0.250" onchange="calculate()">
+<span>حليب شوفان</span>
+</div>
+<span class="extra-price">+ 0.250 ر.ع</span>
+</label>
+
+<label class="option">
+<div class="option-info">
+<input type="radio" name="milk" value="0.250" onchange="calculate()">
+<span>حليب لوز</span>
+</div>
+<span class="extra-price">+ 0.250 ر.ع</span>
+</label>
+
+</div>
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+<h2>إضافات</h2>
+<span class="required">اختياري</span>
+</div>
+
+<div class="options">
+
+<label class="option">
+<div class="option-info">
+<input class="extra" type="checkbox" value="0.300" onchange="calculate()">
+<span>شوت إسبريسو إضافي</span>
+</div>
+<span class="extra-price">+ 0.300</span>
+</label>
+
+<label class="option">
+<div class="option-info">
+<input class="extra" type="checkbox" value="0.200" onchange="calculate()">
+<span>كراميل</span>
+</div>
+<span class="extra-price">+ 0.200</span>
+</label>
+
+<label class="option">
+<div class="option-info">
+<input class="extra" type="checkbox" value="0.200" onchange="calculate()">
+<span>فانيلا</span>
+</div>
+<span class="extra-price">+ 0.200</span>
+</label>
+
+</div>
+</section>
+
+
+<div class="quantity">
+
+<strong>الكمية</strong>
+
+<div class="controls">
+<button onclick="changeQty(-1)">−</button>
+<span id="qty">1</span>
+<button onclick="changeQty(1)">+</button>
+</div>
+
+</div>
+
+</main>
+
+
+<div class="bottom-bar">
+<button class="add" onclick="addToCart()">
+<span>أضف للسلة</span>
+<strong><span id="total">1.800</span> ر.ع</strong>
+</button>
+</div>
+
+
+<script>
+
+const products = {
+
+spanish:{
+name:"سبانش رَوق",
+price:1.800,
+description:"إسبريسو غني مع حليب كريمي ولمسة حلوة متوازنة.",
+image:"https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=1000&q=85"
+},
+
+iced:{
+name:"آيس رَوق",
+price:1.900,
+description:"إسبريسو بارد مع الحليب والثلج، منعش وخفيف.",
+image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=1000&q=85"
+},
+
+flatwhite:{
+name:"فلات وايت",
+price:1.600,
+description:"إسبريسو مزدوج مع حليب ناعم بقوام متوازن.",
+image:"https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1000&q=85"
+},
+
+croissant:{
+name:"كرواسون زبدة",
+price:1.200,
+description:"كرواسون هش وطازج، مناسب مع كوب قهوتك.",
+image:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1000&q=85"
+},
+
+coldbrew:{
+name:"كولد برو",
+price:2.100,
+description:"قهوة باردة بنكهة قوية ونهاية ناعمة.",
+image:"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=1000&q=85"
+},
+
+brownie:{
+name:"براوني رَوق",
+price:1.400,
+description:"براوني شوكولاتة غني يقدم دافئًا.",
+image:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=85"
+}
+
+};
+
+
+const params = new URLSearchParams(window.location.search);
+const item = params.get("item") || "spanish";
+
+const product = products[item] || products.spanish;
+
+document.getElementById("productName").textContent = product.name;
+document.getElementById("productDescription").textContent = product.description;
+document.getElementById("productImage").src = product.image;
+document.getElementById("basePrice").textContent = product.price.toFixed(3);
+
+let quantity = 1;
+
+
+function changeQty(amount){
+
+quantity += amount;
+
+if(quantity < 1){
+quantity = 1;
+}
+
+document.getElementById("qty").textContent = quantity;
+
+calculate();
+}
+
+
+function calculate(){
+
+let price = product.price;
+
+const size = document.querySelector('input[name="size"]:checked');
+const milk = document.querySelector('input[name="milk"]:checked');
+
+if(size){
+price += Number(size.value);
+}
+
+if(milk){
+price += Number(milk.value);
+}
+
+document.querySelectorAll(".extra:checked").forEach(extra=>{
+price += Number(extra.value);
+});
+
+price *= quantity;
+
+document.getElementById("total").textContent = price.toFixed(3);
+}
+
+
+function addToCart(){
+
+const size =
+document.querySelector('input[name="size"]:checked')
+.closest(".option")
+.querySelector("span").textContent;
+
+const milk =
+document.querySelector('input[name="milk"]:checked')
+.closest(".option")
+.querySelector("span").textContent;
+
+let extras = [];
+
+document.querySelectorAll(".extra:checked").forEach(extra=>{
+extras.push(
+extra.closest(".option").querySelector("span").textContent
+);
+});
+
+const cart = JSON.parse(localStorage.getItem("rawqCart")) || [];
+
+cart.push({
+id:item,
+name:product.name,
+image:product.image,
+quantity:quantity,
+size:size,
+milk:milk,
+extras:extras,
+total:Number(document.getElementById("total").textContent)
+});
+
+localStorage.setItem("rawqCart",JSON.stringify(cart));
+
+const notice = document.getElementById("notice");
+
+notice.style.display="block";
+
+setTimeout(()=>{
+notice.style.display="none";
+
+/* بعد الإضافة يفتح السلة */
+window.location.href="cart.html";
+
+},700);
+}
+
+
+calculate();
+
+</script>
+
+</body>
+</html>
